@@ -24,7 +24,7 @@ function get_executing_shell(){
  
 function echo_script_path(){
     shell_name=$(ps -p $$ -o comm=)
-    if [ "$shell_name" == "zsh" ]; 
+    if [ "$shell_name" == "zsh" ] 
     then
         path="$_"
     else    
@@ -70,7 +70,7 @@ function install_oh_my_posh(){
 
 
 function install_font_omp(){
-    if [ -z "$1" ]; 
+    if [ -z "$1" ] 
     then
         my_echo_plain "no args provided. Will install hack font"
         oh-my-posh font install hack
@@ -84,7 +84,7 @@ function install_font_omp(){
 
 function set_posh_theme(){
     posh_theme="gruvbox.omp.json" #"ubblesextra.omp.json"
-    if [ -z "$1" ]; 
+    if [ -z "$1" ] 
     then
         my_echo_plain "no args provided. will change theme to $posh_theme"
  
