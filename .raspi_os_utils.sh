@@ -7,13 +7,9 @@ function install_r_pi_os(){
 }
 
 
-
-
 function install_emoji_fonts(){
     echo_and_execute "sudo apt install fonts-noto-color-emoji"
 }
-
-
 
 
 function install_docker_pi_os(){
@@ -38,6 +34,7 @@ function turn_off_wifi_power_mgmt(){
 
     my_echo "wlan power status: $(sudo iw dev wlan0 get power_save)"
 }
+
 function echo_script_path(){
     shell_name=$(ps -p $$ -o comm=)
     if [ "$shell_name" == "zsh" ] 
