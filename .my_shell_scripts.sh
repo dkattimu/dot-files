@@ -2,10 +2,6 @@
 #***!/usr/bin/zsh
 #!/usr/bin/sh
 
-
-
-
-
 function install_k8s(){
   my_echo "Not yet implemented"
 }

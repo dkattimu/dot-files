@@ -1,3 +1,6 @@
+
+# Idea above is to call as executable for zsh and source for bash; this enables use of $0 for file name under zsh (as well) 
+
 function my_echo(){
     echo "[⏰$(date) ]  '$1' 🚀"
 }
@@ -24,11 +27,14 @@ get_executing_shell() {
 }
  
 function echo_script_path(){
+    #blocking this function for now
+    #return 1    
     shell_name= $(get_executing_shell) #$(ps -p $$ -o comm=)
     my_echo "shell_name: $shell_name"
     if [ "$shell_name" == "zsh" ] 
     then
-        path="$0" #recall $0 wrks for zsh when executed; not when sourced
+        #path="$0" #recall $0 wrks for zsh when executed; not when sourced
+        path=${(%):-%x}
     elif [ "$shell_name" == "bash" ]
     then
         script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -51,6 +57,13 @@ function install_oh_my_posh(){
     curl -s https://ohmyposh.dev/install.sh | bash -s
 }
 
+function install_oh_my_posh_sudo(){
+    my_echo "about to install oh-my-posh using sudo"
+        my_echo "about to install oh-my-posh"
+    mkdir -p ~/.local/bin
+    curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin
+
+}
 
 function install_font_omp(){
     if [ -z "$1" ] 
@@ -66,7 +79,7 @@ function install_font_omp(){
 
 
 function set_posh_theme(){
-    posh_theme="gruvbox.omp.json" #"ubblesextra.omp.json"
+    posh_theme="smoothie.omp.json" #"bubblesextra.omp.json"
     if [ -z "$1" ] 
     then
         my_echo_plain "no args provided. will change theme to $posh_theme"
@@ -102,6 +115,21 @@ function install_lsd(){
     echo "alias ls=lsd" >> ~/.bashrc
 }
 
+
+function run_docker_n8n(){
+    my_echo "Running n8n in docker"
+    docker volume create n8n_data
+
+    docker run -it --rm \
+    --name n8n \
+    -p 5678:5678 \
+    -e GENERIC_TIMEZONE="America/New_York" \
+    -e TZ="America/New_York" \
+    -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true \
+    -e N8N_RUNNERS_ENABLED=true \
+    -v n8n_data:/home/node/.n8n \
+    docker.n8n.io/n8nio/n8n
+}
 
 function git_acp(){
     git add .
